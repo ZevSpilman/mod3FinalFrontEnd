@@ -1,6 +1,6 @@
 #board div {
     background-color: #15CE9B;
-    border: 1px solid black;
+    border: 1px solid #15CE9B;
     box-sizing: border-box;
     float: left;
     width: 24px;
