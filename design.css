@@ -1,0 +1,8 @@
+#board div {
+    background-color: #15CE9B;
+    border: 1px solid black;
+    box-sizing: border-box;
+    float: left;
+    width: 24px;
+    height: 24px;
+}
