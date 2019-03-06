@@ -1,7 +1,13 @@
 <!DOCTYPE html>
 
 <html lang="en" dir="ltr">
-  <head >
+  <head>
+    <form id="username-form" method="POST">
+   Username:<br>
+   <input id="username" type="text">
+   <br>
+   <button type="submit">submit</button>
+ </form>
     <h1 id="question-container"></h1>
     <p id="length-container">
       <div id="score-container">Score: 0</div>
@@ -12,13 +18,14 @@
     <p id="letter-container"></p>
     <h1 id= "win-container"></h1>
 
+
     <meta charset="utf-8">
     <title>crazyawesomename</title>
 
     <div id="board"></div>
 
     <h1> Leaderboard: </h1>
-      <ol id="leaderboard"> <ol>
+      <ol id="leaderboard"> </ol>
 
     <script src="src/index.js" charset="utf-8">. </script>
     <link rel="stylesheet" href="design.css">
