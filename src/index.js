@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", function(event) {
-    console.log("DOM fully loaded and parsed");
     let letterContainer = document.querySelector('#letter-container')
     let lifeContainer = document.querySelector('#life-container')
     let tailArr = []
@@ -173,6 +172,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
             if (cell.element.id.includes(`x-${boardWidth - 1}`)){
               cell.element.style.backgroundColor = "#CE1569"
             }
+            if (cell.element.id.includes(`x-21`)){
+              cell.element.style.backgroundColor = "Black"
+            }
 
             if (cell.element.id.includes(`y-${boardHeight - 1}`)){
               cell.element.style.backgroundColor = "#CE1569"
@@ -263,7 +265,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
           looper =
           setInterval(function(){
             collectLetter()
-            if (currentLocation.includes(`${boardHeight - 2}`) ){
+            if (currentLocation.includes(`y-${boardHeight - 2}`) ){
               addDeath()
               return ""
             }
@@ -379,5 +381,4 @@ document.addEventListener("DOMContentLoaded", function(event) {
         initGame()
       })
     }
-
   });
