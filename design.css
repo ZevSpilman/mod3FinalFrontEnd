@@ -5,4 +5,27 @@
     float: left;
     width: 24px;
     height: 24px;
+
+}
+
+.ad-left {
+  float: left;
+
+}
+
+.ad-right {
+  float: right;
+  margin-left: 270px;
+}
+
+.entire-thing {
+  width: 1100px;
+}
+
+.question {
+  text-align: center;
+}
+
+.life-score {
+  text-align: center;
 }

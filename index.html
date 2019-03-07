@@ -2,26 +2,44 @@
 
 <html lang="en" dir="ltr">
   <head>
-    <div  id="main"> </div>
-    <h1 id="question-container"></h1>
-    <p id="length-container">
-      <div id="score-container"></div>
+    <style>
+body  {
+  background-image: url("https://cdn.tutsplus.com/mobile/uploads/legacy/Corona-SDK_Build-A-Snake-Game/1/6.png");
+  background-color: #cccccc;
+}
+</style>
+    <div id="main"> </div>
+
     </p>
-    <p id="answer-container"></p>
-    <p id="points-container"></p>
-    <p id="life-container"></p>
-    <p id="letter-container"></p>
-    <h1 id= "win-container"></h1>
+    <div class= "question" >
+
+      <p id="answer-container"></p>
+      <h1 id="question-container"></h1>
+      <p id="length-container">
+      <p id="points-container"></p>
+
+      <p id="letter-container"></p>
+      <h1 id= "win-container"></h1>
+    </div>
+
 
 
     <meta charset="utf-8">
-    <title>Type "K"</title>
+    <title>QUIZACOTEL</title>
 
-    <div id="board"></div>
+    <div class="entire-thing">
+    <div class="ad-right" id="board"></div>
+    <div class = "ad-left">
+        <h1 id="life-container"></h1>
+        <h1 id="score-container"></h1>
+    <!-- </div> -->
+
+    <div class="clear"></div>
+    </div>
 
     <h1 id="leaderboard-header"></h1>
       <ol id="leaderboard"> </ol>
-
+    </div>
     <script src="src/index.js" charset="utf-8">. </script>
     <link rel="stylesheet" href="design.css">
   </head>

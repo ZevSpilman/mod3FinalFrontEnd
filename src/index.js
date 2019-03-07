@@ -26,11 +26,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
     let q = 0
     let user = 1
     let score = 0
-    let char = "🐍"
-    let tail = "❎"
-    let deathCondition = "❎"
+    let char = "🔵"
+    let tail = "🔵"
+    let deathCondition = "🔵"
     let scream = new Audio("soundfx/scream.wav");
     let munch = new Audio("soundfx/munch.wav");
+    let airHorn = new Audio("soundfx/airhorn.wav");
     let speed = 200
     const board = [];
     const boardWidth = 34, boardHeight = 23 ;
@@ -273,6 +274,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
               return ""
             }
             if (document.querySelector(currentLocation).innerHTML[0] == deathCondition){
+              debugger
               addDeath()
             }
             moveRight(e);
@@ -358,6 +360,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
       document.querySelector("#answer-container").innerHTML = collectLetterArr.join("")
       if (document.querySelector("#answer-container").innerHTML == answer ){
+        airHorn.play()
         addPoints(document.querySelector("#points-container").dataset.id)
         displayWin()
       }
@@ -378,6 +381,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
       currentLocation = "#x-1-y-1"
       setCurrentSnakeLocation()
       lifeContainer.innerHTML += "☠️"
+
       livesArr.push("☠️")
       tailArr = []
       if (livesArr.length >= 3){
@@ -388,6 +392,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
         questionContainer.innerHTML  = ''
         lengthContainer.innerHTML = ''
         pointsContainer.innerHTML = ''
+        scoreContainer.innerHTML = ''
+        direction = ''
         postScore()
       }
     }
