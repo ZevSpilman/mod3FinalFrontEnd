@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     let scoresArr = []
     let answer = ""
     let direction = ""
+    let usernameInput =''
     let questionContainer = document.querySelector("#question-container")
     let answerContainer = document.querySelector("#answer-container")
     let pointsContainer = document.querySelector("#points-container")
@@ -15,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     let scoreContainer = document.querySelector("#score-container")
     let winContainer = document.querySelector('#win-container')
     let leaderboard = document.querySelector('#leaderboard')
-    let userForm = document.querySelector('#username-form')
+    let  boardElement = ''
     let numberOfLetters = 15
     let collectLetterArr = []
     let letterIndex = 0
@@ -33,8 +34,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     let speed = 200
     const board = [];
     const boardWidth = 34, boardHeight = 23 ;
-    let usernameInput = document.querySelector('#username-form')
-    usernameInput.addEventListener('submit', handleUsername)
+
 
     // let deathCondition = "☠"
     getScores()
@@ -63,8 +63,18 @@ document.addEventListener("DOMContentLoaded", function(event) {
       .then(users => {
         usersArr = users
         sortLeaderboard(scoresArr)
-
         document.querySelector('#leaderboard-header').innerHTML += "Leaderboard:"
+
+        document.querySelector('#main').innerHTML = `
+        <form id="username-form" method="POST">
+         Username:<br>
+         <input id="username" type="text">
+         <br>
+         <button type="submit">submit</button>
+       </form>`
+        usernameInput = document.querySelector('#username-form')
+        usernameInput.addEventListener('submit', handleUsername)
+
       })
     }
     function sortLeaderboard(scores) {
@@ -131,7 +141,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
       else {
         createUser(inputUser)
       }
-      userForm.innerHTML = ""
+      usernameInput.innerHTML = ""
       fetchQuestions()
     }
     function createUser(newUser) {
@@ -153,14 +163,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
     }
     function initGame() {
 
-      const boardElement = document.querySelector('#board');
+      boardElement = document.querySelector('#board');
       boardElement.innerHTML = ""
       livesArr = []
       collectLetterArr=[]
       lifeContainer.innerHTML = ""
       answerContainer.innerHTML = ""
       letterContainer.innerHTML = ""
-      // leaderboard.innerHTML = ""
       letterIndex = 0
 
 
@@ -372,8 +381,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
       livesArr.push("☠️")
       tailArr = []
       if (livesArr.length >= 3){
-        // death message and highscore postage
-        console.log(answer);
+        boardElement.innerHTML = ""
+        lifeContainer.innerHTML = ""
+        answerContainer.innerHTML = ""
+        letterContainer.innerHTML = ""
+        questionContainer.innerHTML  = ''
+        lengthContainer.innerHTML = ''
+        pointsContainer.innerHTML = ''
         postScore()
       }
     }
@@ -392,7 +406,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
       .then(r => r.json())
       .then(score => {
         scoresArr.push(score)
-        initGame()
+        getScores()
       })
     }
   });
