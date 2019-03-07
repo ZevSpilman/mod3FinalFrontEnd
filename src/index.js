@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     let usersArr = []
     let scoresArr = []
     let answer = ""
+    let direction = ""
     let questionContainer = document.querySelector("#question-container")
     let answerContainer = document.querySelector("#answer-container")
     let pointsContainer = document.querySelector("#points-container")
@@ -36,13 +37,15 @@ document.addEventListener("DOMContentLoaded", function(event) {
     usernameInput.addEventListener('submit', handleUsername)
 
     // let deathCondition = "☠"
-    fetchQuestions()
+    getScores()
     function fetchQuestions() {
       fetch(`http://localhost:3000/api/v1/questions`)
       .then(r => r.json())
       .then(questions => {
         questionsArr = questions
-        getScores()
+        initGame()
+
+
       })
     }
     function getScores() {
@@ -59,7 +62,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
       .then(r => r.json())
       .then(users => {
         usersArr = users
-        initGame()
+        sortLeaderboard(scoresArr)
+
+        document.querySelector('#leaderboard-header').innerHTML += "Leaderboard:"
       })
     }
     function sortLeaderboard(scores) {
@@ -73,7 +78,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
       }
     }
     function renderScore(score) {
-
       let element = document.createElement(`li`)
       let user = usersArr.find(u => u.id == score.user_id)
       element.innerHTML = `${user.username} - ${score.scoreValue}`
@@ -89,9 +93,15 @@ document.addEventListener("DOMContentLoaded", function(event) {
       questionContainer.innerHTML = questionsArr[index].content
       let blankAnswer = ""
       lengthContainer.innerHTML = "Answer Length: " + questionsArr[index].answer.length
-      pointsContainer.innerHTML = questionsArr[index].points
+
+      pointsContainer.dataset.id = questionsArr[index].points
+      pointsContainer.innerHTML = `Question Value: ${pointsContainer.dataset.id}`
+
       answer = questionsArr[index].answer
 
+      for (var i = 0; i < answer.length; i++) {
+        document.querySelector(`#x-${getRandomInt(boardWidth - 1)}-y-${getRandomInt(boardHeight - 1)}`).innerHTML = answer[i]
+      }
       for (var i = 0; i < answer.length; i++) {
         document.querySelector(`#x-${getRandomInt(boardWidth - 1)}-y-${getRandomInt(boardHeight - 1)}`).innerHTML = answer[i]
       }
@@ -122,6 +132,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         createUser(inputUser)
       }
       userForm.innerHTML = ""
+      fetchQuestions()
     }
     function createUser(newUser) {
       fetch(`http://localhost:3000/api/v1/users`,{
@@ -172,9 +183,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
             if (cell.element.id.includes(`x-${boardWidth - 1}`)){
               cell.element.style.backgroundColor = "#CE1569"
             }
-            if (cell.element.id.includes(`x-21`)){
-              cell.element.style.backgroundColor = "Black"
-            }
 
             if (cell.element.id.includes(`y-${boardHeight - 1}`)){
               cell.element.style.backgroundColor = "#CE1569"
@@ -187,19 +195,20 @@ document.addEventListener("DOMContentLoaded", function(event) {
         clearInterval(looper)
         speed = 200
         let questionIndex = getRandomInt(questionsArr.length)
+        placeLetters()
         appendQuestion(questionIndex)
         questionsArr = questionsArr.filter(a => a.id != questionsArr[questionIndex].id);
         console.log(questionsArr);
         currentLocation = "#x-1-y-1"
         document.querySelector(currentLocation).innerHTML = char
-        placeLetters()
+
         tailArr = []
 
         leaderboard.innerHTML = ''
-        sortLeaderboard(scoresArr)
-
+        document.querySelector('#leaderboard-header').innerHTML = ''
+        document.addEventListener('keydown', handleMove)
     }
-    document.addEventListener('keydown', handleMove)
+
     function setCurrentSnakeLocation() {
       document.querySelector(`${currentLocation}`).innerHTML = char
     }
@@ -244,7 +253,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
         clearInterval(looper)
       }
 
-      if (e.key == "d"){
+      if (e.key == "d" && direction != "left"){
+        direction = "right"
         clearInterval(looper)
           looper =
           setInterval(function(){
@@ -260,7 +270,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
           }, speed)
       }
 
-      else if (e.key == "s"){
+      else if (e.key == "s" && direction != "up"){
+        direction = "down"
         clearInterval(looper)
           looper =
           setInterval(function(){
@@ -276,7 +287,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
           }, speed)
       }
 
-      else if (e.key == "a"){
+      else if (e.key == "a" && direction != "right"){
+        direction = "left"
         clearInterval(looper)
           looper =
           setInterval(function(){
@@ -292,7 +304,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
           }, speed)
       }
 
-      else if (e.key == "w"){
+      else if (e.key == "w" && direction != "down"){
+        direction = "up"
         clearInterval(looper)
           looper =
           setInterval(function(){
@@ -336,8 +349,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
       document.querySelector("#answer-container").innerHTML = collectLetterArr.join("")
       if (document.querySelector("#answer-container").innerHTML == answer ){
+        addPoints(document.querySelector("#points-container").dataset.id)
         displayWin()
-        addPoints(document.querySelector("#points-container").innerText)
       }
     }
     function displayWin(){
@@ -346,7 +359,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     }
     function addPoints(points) {
       score += parseInt(points)
-      scoreContainer.innerHTML = `Score: ${score}`
+      scoreContainer.innerHTML = `Your score: ${score}`
     }
     function addDeath(){
       scream.play();
@@ -360,6 +373,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
       tailArr = []
       if (livesArr.length >= 3){
         // death message and highscore postage
+        console.log(answer);
         postScore()
       }
     }
