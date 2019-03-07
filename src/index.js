@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
       .then(users => {
         usersArr = users
         sortLeaderboard(scoresArr)
-        document.querySelector('#leaderboard-header').innerHTML += "Leaderboard:"
+        document.querySelector('#leaderboard-header').innerHTML += "Leaderboard"
 
         document.querySelector('#main').innerHTML = `
         <form id="username-form" method="POST">
@@ -90,6 +90,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     }
     function renderScore(score) {
       let element = document.createElement(`li`)
+      element.id = "list"
       let user = usersArr.find(u => u.id == score.user_id)
       element.innerHTML = `${user.username} - ${score.scoreValue}`
       leaderboard.appendChild(element)
