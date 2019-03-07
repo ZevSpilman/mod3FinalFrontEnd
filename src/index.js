@@ -24,11 +24,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
     let currentLocation = "#x-1-y-1"
     let looper = null
     let q = 0
-    let user = 1
+    let user = null
     let score = 0
-    let char = "🔵"
-    let tail = "🔵"
-    let deathCondition = "🔵"
+    let char = "🐍"
+    let tail = "❎"
+    let deathCondition = "❎"
     let scream = new Audio("soundfx/scream.wav");
     let munch = new Audio("soundfx/munch.wav");
     let airHorn = new Audio("soundfx/airhorn.wav");
@@ -146,6 +146,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
       fetchQuestions()
     }
     function createUser(newUser) {
+      //this makes sure the leaderboard will not show a blank name by a score
+      if (newUser == ""){
+        newUser = "Guest"
+      }
       fetch(`http://localhost:3000/api/v1/users`,{
         method: "POST",
         headers: {
@@ -274,7 +278,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
               return ""
             }
             if (document.querySelector(currentLocation).innerHTML[0] == deathCondition){
-              debugger
               addDeath()
             }
             moveRight(e);
@@ -321,7 +324,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
           looper =
           setInterval(function(){
             collectLetter()
-            if (currentLocation.endsWith(`y-${1}`) ){
+            if (currentLocation.endsWith(`y-${0}`) ){
               addDeath()
               return ""
             }
@@ -377,10 +380,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
       scream.play();
       clearInterval(looper)
       document.querySelector(`${currentLocation}`).innerHTML = " "
-
       currentLocation = "#x-1-y-1"
       setCurrentSnakeLocation()
       lifeContainer.innerHTML += "☠️"
+      speed = 200
+      direction = ''
 
       livesArr.push("☠️")
       tailArr = []
@@ -411,6 +415,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
       })
       .then(r => r.json())
       .then(score => {
+        console.log(user
+        );
         scoresArr.push(score)
         getScores()
       })
