@@ -8,9 +8,15 @@
 
 }
 
+* {
+  font-family: "Arcade Pi";
+  text-align: center;
+}
+
 .ad-left {
   float: left;
-
+  display: inline-block;
+  vertical-align: middle;
 }
 
 .ad-right {
@@ -20,12 +26,20 @@
 
 .entire-thing {
   width: 1100px;
-}
-
-.question {
   text-align: center;
 }
 
-.life-score {
+#leaderboard {
+  list-style-position: inside;
   text-align: center;
+
+}
+
+#list {
+  padding-right: 30px;
+}
+
+.lifeBox {
+  padding-top: 30px;
+  padding-bottom: 30px;
 }
