@@ -9,14 +9,14 @@
 }
 
 * {
-  font-family: "Arcade Pi";
+  font-family: "ARCADECLASSIC";
   text-align: center;
 }
 
 .ad-left {
   float: left;
   display: inline-block;
-  vertical-align: middle;
+  /* vertical-align: middle; */
 }
 
 .ad-right {
@@ -42,4 +42,11 @@
 .lifeBox {
   padding-top: 30px;
   padding-bottom: 30px;
+}
+
+
+
+.length {
+  /* display: table-cell; */
+  margin-right: 270px;
 }
