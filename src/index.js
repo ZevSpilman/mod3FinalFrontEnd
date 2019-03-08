@@ -16,6 +16,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     let scoreContainer = document.querySelector("#score-container")
     let winContainer = document.querySelector('#win-container')
     let leaderboard = document.querySelector('#leaderboard')
+    let leaderboardHeader = document.querySelector('#leaderboard-header')
     let boardElement = ''
     let numberOfLetters = 15
     let collectLetterArr = []
@@ -182,6 +183,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
       boardElement.innerHTML = ""
       livesArr = []
       collectLetterArr=[]
+      leaderboardHeader.innerHTML = ''
       lifeContainer.innerHTML = ""
       answerContainer.innerHTML = ""
       letterContainer.innerHTML = ""
