@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     let direction = ""
     let usernameInput =''
     let questionContainer = document.querySelector("#question-container")
+    let gameTitle = document.querySelector('#game-title')
     let answerContainer = document.querySelector("#answer-container")
     let pointsContainer = document.querySelector("#points-container")
     let lengthContainer = document.querySelector("#length-container")
@@ -75,6 +76,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
       .then(users => {
         usersArr = users
         sortLeaderboard(scoresArr)
+        gameTitle.innerHTML += "QUEZALCOATL"
         document.querySelector('#leaderboard-header').innerHTML += "Leaderboard"
 
         document.querySelector('#main').innerHTML = `
@@ -238,7 +240,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         document.querySelector(currentLocation).innerHTML = char
 
         tailArr = []
-
+        gameTitle.innerHTML = ""
         leaderboard.innerHTML = ''
         document.querySelector(`${currentLocation}`).innerHTML = char
         // document.querySelector(`${currentLocation}`).appendChild(char)
@@ -392,9 +394,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
       if (document.querySelector(`${currentLocation}`).innerHTML.length > 30){
         munch.play();
         letterString = (document.querySelector(`${currentLocation}`).innerHTML[0])
-        letterContainer.innerHTML += letterString
-        letterArr.push(letterString)
-        speed -= 5
+        if (letterString !== "<") {
+          letterContainer.innerHTML += letterString
+          letterArr.push(letterString)
+          speed -= 5
+        }
       }
       letterString = (document.querySelector(`${currentLocation}`).innerHTML[0])
         if (letterString == answer[letterIndex]) {
