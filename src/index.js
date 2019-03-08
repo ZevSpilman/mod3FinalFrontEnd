@@ -26,9 +26,19 @@ document.addEventListener("DOMContentLoaded", function(event) {
     let q = 0
     let user = null
     let score = 0
-    let char = "🐍"
-    let tail = "❎"
-    let deathCondition = "❎"
+    let char = '<img src="./images/snake.png"/>'
+    // var c = document.getElementById("myCanvas");
+    // c.style.color = "green"
+    // var ctx = c.getContext("2d");
+    // ctx.fillRect(20, 20, 25, 25);
+    // let char = ctx
+    // let char = "🐍"
+    let tail = '<img src="./images/snakeTail.png"/>'
+    // document.createElement('img')
+    // tail.src = `images/snakeTail.png`
+    // let tail = "❎"
+    let deathCondition = '<img src="./images/snakeTail.png">'
+    // let deathCondition = "❎"
     let scream = new Audio("soundfx/scream.wav");
     let munch = new Audio("soundfx/munch.wav");
     let airHorn = new Audio("soundfx/airhorn.wav");
@@ -215,17 +225,20 @@ document.addEventListener("DOMContentLoaded", function(event) {
         questionsArr = questionsArr.filter(a => a.id != questionsArr[questionIndex].id);
         console.log(questionsArr);
         currentLocation = "#x-1-y-1"
+        // debugger
         document.querySelector(currentLocation).innerHTML = char
 
         tailArr = []
 
         leaderboard.innerHTML = ''
-        document.querySelector('#leaderboard-header').innerHTML = ''
+        document.querySelector(`${currentLocation}`).innerHTML = char
+        // document.querySelector(`${currentLocation}`).appendChild(char)
         document.addEventListener('keydown', handleMove)
     }
 
     function setCurrentSnakeLocation() {
       document.querySelector(`${currentLocation}`).innerHTML = char
+      // document.querySelector(`${currentLocation}`).appendChild(char)
     }
     function moveRight(e){
       let previousLocation = currentLocation
@@ -278,7 +291,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
               addDeath()
               return ""
             }
-            if (document.querySelector(currentLocation).innerHTML[0] == deathCondition){
+            if (document.querySelector(currentLocation).innerHTML.includes(deathCondition)){
               addDeath()
             }
             moveRight(e);
@@ -295,7 +308,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
               addDeath()
               return ""
             }
-            if (document.querySelector(currentLocation).innerHTML[0] == deathCondition){
+            if (document.querySelector(currentLocation).innerHTML.includes(deathCondition)){
               addDeath()
             }
             moveDown(e);
@@ -312,7 +325,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
               addDeath()
               return ""
             }
-            if (document.querySelector(currentLocation).innerHTML[0] == deathCondition){
+            if (document.querySelector(currentLocation).innerHTML.includes(deathCondition)){
               addDeath()
             }
             moveLeft(e);
@@ -329,7 +342,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
               addDeath()
               return ""
             }
-            if (document.querySelector(currentLocation).innerHTML[0] == deathCondition){
+            if (document.querySelector(currentLocation).innerHTML.includes(deathCondition)){
               addDeath()
             }
             moveUp(e);
@@ -341,6 +354,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
       let alpharray = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
 
       document.querySelector(`${previousLocation}`).innerHTML = tail
+      // debugger
+      // document.querySelector(`${previousLocation}`).innerHTML = ""
+      // document.querySelector(`${previousLocation}`).cloneNode(tail)
+      // console.log(tail);
+      // document.querySelector(`${previousLocation}`).appendChild(tail)
       tailArr.unshift(previousLocation)
       if (!alpharray.includes(document.querySelector(`${currentLocation}`).innerHTML[0])){
         endTail = tailArr.pop()
@@ -349,7 +367,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     }
     function collectLetter(){
       let letterString = ""
-      if (document.querySelector(`${currentLocation}`).innerHTML.length > 2){
+      if (document.querySelector(`${currentLocation}`).innerHTML.length > 30){
         munch.play();
         letterString = (document.querySelector(`${currentLocation}`).innerHTML[0])
         letterContainer.innerHTML += letterString
