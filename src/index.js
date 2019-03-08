@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     let scoreContainer = document.querySelector("#score-container")
     let winContainer = document.querySelector('#win-container')
     let leaderboard = document.querySelector('#leaderboard')
-    let  boardElement = ''
+    let boardElement = ''
     let numberOfLetters = 15
     let collectLetterArr = []
     let letterIndex = 0
@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     let speed = 200
     const board = [];
     const boardWidth = 34, boardHeight = 23 ;
-
+    let didIWIn = false
 
     // let deathCondition = "☠"
     getScores()
@@ -105,9 +105,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
       element.innerHTML = `${user.username} - ${score.scoreValue}`
       leaderboard.appendChild(element)
     }
-    function getRandomInt(max) {
+    function getRandomInt(minimum, max) {
 
-      min = Math.ceil(1);
+      min = Math.ceil(minimum);
       max = Math.floor(max);
       return Math.floor(Math.random() * (max - min)) + min;
     }
@@ -122,10 +122,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
       answer = questionsArr[index].answer
 
       for (var i = 0; i < answer.length; i++) {
-        document.querySelector(`#x-${getRandomInt(boardWidth - 1)}-y-${getRandomInt(boardHeight - 1)}`).innerHTML = answer[i]
+        document.querySelector(`#x-${getRandomInt(1, boardWidth - 1)}-y-${getRandomInt(1, boardHeight - 1)}`).innerHTML = answer[i]
       }
       for (var i = 0; i < answer.length; i++) {
-        document.querySelector(`#x-${getRandomInt(boardWidth - 1)}-y-${getRandomInt(boardHeight - 1)}`).innerHTML = answer[i]
+        document.querySelector(`#x-${getRandomInt(1, boardWidth - 1)}-y-${getRandomInt(1, boardHeight - 1)}`).innerHTML = answer[i]
       }
 
     }
@@ -140,7 +140,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     function placeLetters(){
 
       for (var i = 0; i < numberOfLetters; i++) {
-        document.querySelector(`#x-${getRandomInt(boardWidth - 1)}-y-${getRandomInt(boardHeight - 1)}`).innerHTML = generateRandomLetter()
+        document.querySelector(`#x-${getRandomInt(1, boardWidth - 1)}-y-${getRandomInt(1, boardHeight - 1)}`).innerHTML = generateRandomLetter()
       }
     }
     function handleUsername(e){
@@ -178,7 +178,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
       })
     }
     function initGame() {
-
       boardElement = document.querySelector('#board');
       boardElement.innerHTML = ""
       livesArr = []
@@ -219,11 +218,19 @@ document.addEventListener("DOMContentLoaded", function(event) {
       }
         clearInterval(looper)
         speed = 200
-        let questionIndex = getRandomInt(questionsArr.length)
+        let questionIndex = getRandomInt(0, questionsArr.length)
         placeLetters()
-        appendQuestion(questionIndex)
-        questionsArr = questionsArr.filter(a => a.id != questionsArr[questionIndex].id);
-        console.log(questionsArr);
+        if (questionsArr.length > 0){
+          console.log("length grEATER THAN 0");
+          appendQuestion(questionIndex)
+          questionsArr = questionsArr.filter(a => a.id != questionsArr[questionIndex].id);
+          console.log(questionsArr);
+        }
+        else {
+          questionsArr = [{id: 6, content: "Spell out the alphabet", points: 99999, answer: "ABCDEFGHIJKLMNOPQRSTUVWXYZ"}]
+          appendQuestion(0)
+          console.log(questionsArr);
+        }
         currentLocation = "#x-1-y-1"
         // debugger
         document.querySelector(currentLocation).innerHTML = char
@@ -235,10 +242,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
         // document.querySelector(`${currentLocation}`).appendChild(char)
         document.addEventListener('keydown', handleMove)
     }
-
     function setCurrentSnakeLocation() {
       document.querySelector(`${currentLocation}`).innerHTML = char
-      // document.querySelector(`${currentLocation}`).appendChild(char)
+
     }
     function moveRight(e){
       let previousLocation = currentLocation
@@ -276,6 +282,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
       createTail(previousLocation)
     }
     function handleMove(e){
+      didIWIn = false
       winContainer.innerHTML = ""
       if (e.keyCode == 32){
         clearInterval(looper)
@@ -293,8 +300,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
             }
             if (document.querySelector(currentLocation).innerHTML.includes(deathCondition)){
               addDeath()
+              return ''
             }
-            moveRight(e);
+            if (didIWIn == false){
+              moveRight(e);
+            }
           }, speed)
       }
 
@@ -310,8 +320,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
             }
             if (document.querySelector(currentLocation).innerHTML.includes(deathCondition)){
               addDeath()
+              return ''
             }
-            moveDown(e);
+            if (didIWIn == false){
+              moveDown(e);
+            }
           }, speed)
       }
 
@@ -327,8 +340,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
             }
             if (document.querySelector(currentLocation).innerHTML.includes(deathCondition)){
               addDeath()
+              return ''
             }
-            moveLeft(e);
+            if (didIWIn == false){
+              moveLeft(e);
+            }
+
           }, speed)
       }
 
@@ -344,8 +361,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
             }
             if (document.querySelector(currentLocation).innerHTML.includes(deathCondition)){
               addDeath()
+              return ""
             }
-            moveUp(e);
+            if (didIWIn == false) {
+              moveUp(e);
+            }
           }, speed)
       }
     }
@@ -385,6 +405,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         airHorn.play()
         addPoints(document.querySelector("#points-container").dataset.id)
         displayWin()
+        didIWIn = true
       }
     }
     function displayWin(){
