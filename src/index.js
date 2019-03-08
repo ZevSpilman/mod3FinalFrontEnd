@@ -76,7 +76,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
       .then(users => {
         usersArr = users
         sortLeaderboard(scoresArr)
-        gameTitle.innerHTML += "QUEZALCOATL"
+        gameTitle.innerHTML += "QUIZALCOATL"
         document.querySelector('#leaderboard-header').innerHTML += "Leaderboard"
 
         document.querySelector('#main').innerHTML = `
@@ -120,7 +120,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
       lengthContainer.innerHTML = "Answer Length: " + questionsArr[index].answer.length
 
       pointsContainer.dataset.id = questionsArr[index].points
-      pointsContainer.innerHTML = `Question Value: ${pointsContainer.dataset.id}`
+      lengthContainer.innerHTML += ` — `
+      lengthContainer.innerHTML += `Question Value: ${pointsContainer.dataset.id}`
 
       answer = questionsArr[index].answer
 
