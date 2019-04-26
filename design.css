@@ -1,6 +1,6 @@
 #board div {
-    background-color: #7dc496;
-    border: 1px solid #7dc496;
+    background-color: #15CE9B;
+    border: 1px solid #15CE9B;
     box-sizing: border-box;
     float: left;
     width: 24px;
@@ -21,7 +21,7 @@
 
 .ad-right {
   float: right;
-  margin-left: 280px;
+  margin-left: 270px;
 }
 
 .entire-thing {
