@@ -232,7 +232,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
           console.log(questionsArr);
         }
         else {
-          questionsArr = [{id: 6, content: "Spell out the alphabet", points: 99999, answer: "ABCDEFGHIJKLMNOPQRSTUVWXYZ"}]
+          questionsArr = [{id: 6, content: "Spell out the alphabet ... twice", points: 99999, answer: "ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ"}]
           appendQuestion(0)
           console.log(questionsArr);
         }
